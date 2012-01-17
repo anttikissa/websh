@@ -1,0 +1,6 @@
+[submodule "ext/socket.io"]
+	path = ext/socket.io
+	url = https://github.com/LearnBoost/socket.io.git
+[submodule "ext/socket.io-client"]
+	path = ext/socket.io-client
+	url = https://github.com/LearnBoost/socket.io-client
