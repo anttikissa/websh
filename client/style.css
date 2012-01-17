@@ -1,0 +1,19 @@
+body {
+	background: #000;
+	line-height: 20px;
+	font-size: 17px;
+}
+
+textarea {
+	background: blue;
+}
+
+pre {
+	background: #000;
+	color: #00f000;
+	height: 480px;
+	width: 800px;
+	overflow: auto;
+	padding: 8px;
+	border: 1px solid #080;
+}

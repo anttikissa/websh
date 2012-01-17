@@ -18,18 +18,25 @@ handleConnection = (socket) ->
 	put = (data) -> 
 		socket.emit 'data', data.toString()
 
-	console.log 'spawning child'
-	child = childProcess.spawn('./process.sh')
+#	file = '/Users/antti/code/backend/bin/usn'
+	file = 'bash'
+	args = ['-i']
+	child = childProcess.spawn(file, args)
+
+	console.log 'Spawned child ' + child.pid
+
+#	child.stdin.write('ls')
+#	child.stdin.end()
 
 	child.on 'exit', (code, signal) ->
-		put 'process has left the building, code ' + code
+		put "process #{child.pid} has left the building, code " + code
 		if signal then put 'process was terminated due to signal ' + signal
 
 	socket.on 'disconnect', ->
-		console.log 'Socket closed, terminating.'
+		console.log "Socket closed, terminating #{child.pid}."
 		child.kill('SIGTERM')
 		setTimeout (->
-			console.log 'Socket closed + 1 second, killing.'
+			console.log "Socket closed + 1 second, killing #{child.pid}."
 			child.kill('SIGKILL')
 		), 1000
 
@@ -37,10 +44,13 @@ handleConnection = (socket) ->
 		put data
 
 	child.stderr.on 'data', (data) ->
-		put "[error] " + data
+		put data
 
-	socket.on 'data', (data) ->
-#		console.log 'Got data back: ' + data
+	socket.on 'keypress', (which) ->
+		str = String.fromCharCode(which)
+		console.log 'Got keypress (code ' + which + ') ' + str
+		child.stdin.write(str)
+#		child.stdin.end()
 
 io.sockets.on 'connection', handleConnection
 
