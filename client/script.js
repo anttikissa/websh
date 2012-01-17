@@ -2,10 +2,21 @@ $(function() {
 	var c = $('#console');
 	var socket = io.connect('http://localhost:3030');
 	socket.on('data', function (data) {
-		c.append(data);
-		var scrollHeight = c[0].scrollHeight;
-		c.scrollTop(scrollHeight);
-//		socket.emit('data', 'Thanks.');
+		if (data.length) {
+			var code = data.charCodeAt(0);
+			if (code === 8) {
+				if (c.html().length) {
+					var da = c.html();
+					c.html(da.substring(0, da.length - 1));
+				}
+			} else if (code === 9) {
+				// ignore
+			} else {
+				c.append(data);
+				var scrollHeight = c[0].scrollHeight;
+				c.scrollTop(scrollHeight);
+			}
+		}
 	});
 
 	$(document).keypress(function(key) {

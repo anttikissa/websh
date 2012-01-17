@@ -18,15 +18,15 @@ handleConnection = (socket) ->
 	put = (data) -> 
 		socket.emit 'data', data.toString()
 
-#	file = '/Users/antti/code/backend/bin/usn'
 	file = 'bash'
 	args = ['-i']
-	child = childProcess.spawn(file, args)
+	child = childProcess.spawn(file, args, {
+		env: {
+			TERM: 'vt100'
+		}
+	})
 
 	console.log 'Spawned child ' + child.pid
-
-#	child.stdin.write('ls')
-#	child.stdin.end()
 
 	child.on 'exit', (code, signal) ->
 		put "process #{child.pid} has left the building, code " + code
