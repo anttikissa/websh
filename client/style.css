@@ -1,7 +1,7 @@
 body {
 	background: #000;
 	line-height: 20px;
-	font-size: 17px;
+	font-size: 16px;
 }
 
 textarea {
@@ -9,6 +9,7 @@ textarea {
 }
 
 pre {
+	font-family: 'Monaco', monospace;
 	background: #000;
 	color: #00f000;
 	height: 480px;
